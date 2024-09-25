@@ -5,7 +5,7 @@ A mobile application developed with React Native using Expo and Zustand for stat
 
 ## Features
 
-- **Movie List**: Display a list of movies fetched from an API.
+- **Movie List**: Display a list of movies fetched from json.
 - **Search Functionality**: Search for movies by title.
 - **Bookmarks**: Save favorite movies for easy access later.
 - **Movie Details**: View detailed information about each movie.
