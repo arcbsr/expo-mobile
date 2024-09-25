@@ -1,14 +1,53 @@
+# React Native
 node_modules/
+npm-debug.log
+yarn-error.log
+*.lock
+
+# Expo-specific
 .expo/
-dist/
-npm-debug.*
-*.jks
-*.p8
-*.p12
-*.key
-*.mobileprovision
-*.orig.*
-web-build/
+.expo-shared/
+
+# iOS
+ios/
+*.xcworkspace
+*.xcodeproj
+*.xcuserdata
+*.xcuserstate
+ios/Pods/
+ios/build/
+!ios/Podfile
+!ios/Podfile.lock
+
+# Android
+android/
+*.apk
+*.iml
+*.log
+*.keystore
+*.db
+/android/app/debug.keystore
+/android/app/release.keystore
+android/.gradle/
+android/app/build/
+android/build/
+
+# VSCode
+.vscode/
 
 # macOS
 .DS_Store
+
+# Logs
+*.log
+*.log.*
+
+# Ignore IDE and editor-specific files
+.idea/
+*.sublime-workspace
+*.sublime-project
+*.swp
+
+# Temp files
+.tmp/
+.temp/
