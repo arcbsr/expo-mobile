@@ -1,5 +1,4 @@
-# Create a README.md file with the specified content for the React Native Movie App
-readme_content = """# React Native Movie App
+
 
 A mobile application developed with React Native using Expo and Zustand for state management. This app allows users to browse a list of movies, search for specific titles, bookmark their favorites, and view detailed information about each movie.
 
