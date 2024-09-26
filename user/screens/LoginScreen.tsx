@@ -121,8 +121,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#f5f5f5',
   },
   loginButton: {
-    backgroundColor: '#000',
-    paddingVertical: 4,
+    backgroundColor: 'orange',
     borderRadius: 8,
     marginBottom: 20,
   },
@@ -139,8 +138,7 @@ const styles = StyleSheet.create({
   socialButton: {
     marginBottom: 10,
     borderColor: '#ddd',
-    borderRadius: 8,
-    paddingVertical: 8,
+    borderRadius: 18,
   },
   socialButtonText: {
     fontSize: 14,

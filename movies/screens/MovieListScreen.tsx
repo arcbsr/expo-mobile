@@ -6,6 +6,8 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../../app/navigation/types';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { useFocusEffect } from '@react-navigation/native';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
+
 
 type MovieListScreenProps = {
   navigation: StackNavigationProp<RootStackParamList, 'Home'>;
@@ -51,7 +53,7 @@ const MovieListScreen: React.FC<MovieListScreenProps> = ({ navigation }) => {
     navigation.setOptions({
       headerRight: () => (
         <TouchableOpacity style={styles.iconContainer} onPress={handleLogout}>
-          <Icon name="log-out-outline" size={24} color="#000000" />
+          <Icon name="log-out-outline" size={24} color="red" />
         </TouchableOpacity>
       ),
     });
@@ -95,7 +97,8 @@ const MovieListScreen: React.FC<MovieListScreenProps> = ({ navigation }) => {
     </View>
   );
 };
-
+// const { width } = Dimensions.get('window');
+// import { Platform } from 'react-native';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -105,7 +108,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#ccc',
     borderRadius: 8,
-    padding: 10,
+    padding: 5,
     marginBottom: 16,
   },
   iconContainer: {

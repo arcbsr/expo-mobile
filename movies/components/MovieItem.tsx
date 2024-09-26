@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 20,
+    marginBottom: 5,
     padding: 15,
     borderRadius: 12,
     backgroundColor: '#fff',
@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
   },
   poster: {
     width: 80,
-    height: 90,
+    height: 80,
     borderRadius: 8,
     marginRight: 15,
     backgroundColor: '#f0f0f0',
@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 14,
     fontWeight: 'bold',
-    color: '#333',
+    color: '#666',
     marginBottom: 5,
   },
   year: {
@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 25,
     backgroundColor: '#f0f0f0',
-    elevation: 10,
+    elevation: 1,
   },
 
 });
