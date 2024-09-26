@@ -27,8 +27,8 @@ const MovieItem: React.FC<MovieItemProps> = ({ movie, isBookmarked, onToggleBook
       </View>
       <TouchableOpacity onPress={onToggleBookmark} style={styles.bookmarkIcon}>
         <Ionicons
-          name={isBookmarked ? 'heart' : 'heart-outline'}
-          size={28}
+          name={isBookmarked ? 'bookmark' : 'bookmark-outline'}
+          size={20}
           color={isBookmarked ? '#ff6347' : '#b0b0b0'} // Use more appealing colors
         />
       </TouchableOpacity>
@@ -76,10 +76,10 @@ const styles = StyleSheet.create({
     color: '#666',
   },
   bookmarkIcon: {
-    padding: 5,
+    padding: 10,
     borderRadius: 25,
     backgroundColor: '#f0f0f0',
-    elevation: 1,
+    elevation: 10,
   },
 
 });

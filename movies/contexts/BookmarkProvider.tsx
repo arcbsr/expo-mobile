@@ -19,7 +19,9 @@ export const BookmarkProvider: React.FC<{ children: ReactNode }> = ({ children }
   useEffect(() => {
     const fetchMovies = async () => {
       const fetchedMovies = await MovieRepository.getMovies();
-      setMovies(fetchedMovies);
+
+      const shuffledMovies = [...fetchedMovies].sort(() => Math.random() - 0.5);
+      setMovies(shuffledMovies);
       setLoading(false);
     };
 
