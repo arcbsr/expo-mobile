@@ -4,12 +4,14 @@ import { createStackNavigator } from '@react-navigation/stack';
 import MovieDetailScreen from '../../movies/screens/MovieDetailScreen';
 import { RootStackParamList } from './types'; // Adjust the path accordingly
 import MyDrawer from './NavDrawer';
+import LoginScreen from '../../user/screens/LoginScreen';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
 const App = () => {
   return (
-      <Stack.Navigator initialRouteName="Home">
+      <Stack.Navigator initialRouteName="LoginScreen">
+        <Stack.Screen name="LoginScreen" component={LoginScreen} options={{ headerShown: false }}/>
         <Stack.Screen name="Home" component={MyDrawer} options={{ headerShown: false }}/>
         <Stack.Screen name="MovieDetail" component={MovieDetailScreen} options={{ title: 'Details' }} />
       </Stack.Navigator>
