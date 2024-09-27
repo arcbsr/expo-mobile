@@ -14,8 +14,9 @@ type MovieListScreenProps = {
 
 const MovieListScreen: React.FC<MovieListScreenProps> = ({ navigation }) => {
   const [searchTerm, setSearchTerm] = useState('');
+  const [searchText, setsearchText] = useState('');
   const [page, setPage] = useState(1);
-  const { movies, loading, toggleBookmark, fetchMovies, isBookmarked } = useBookmarks();
+  const { movies, loading, toggleBookmark, fetchMovies, isBookmarked, error, successMessage } = useBookmarks();
 
   const handleLogout = () => {
     navigation.replace('LoginScreen');
@@ -59,7 +60,7 @@ const MovieListScreen: React.FC<MovieListScreenProps> = ({ navigation }) => {
   }, [navigation]);
 
   useEffect(() => {
-    // fetchMovies(searchTerm, page); // Fetch movies when page or searchTerm changes
+    fetchMovies(searchTerm, page); // Fetch movies whenever the search term or page changes
   }, [searchTerm, page]);
 
   const handleMoviePress = (movieId: string) => {
@@ -67,23 +68,28 @@ const MovieListScreen: React.FC<MovieListScreenProps> = ({ navigation }) => {
   };
 
   const handleSearchSubmit = () => {
-    setPage(1); // Reset to page 1 when a new search is performed
     Keyboard.dismiss(); // Dismiss the keyboard
-    fetchMovies(searchTerm, 1); // Fetch movies with the new search term
+    setPage(1); // Reset to page 1 when a new search is performed
+    setSearchTerm(searchText);
   };
 
   const handleNextPage = () => {
     setPage((prevPage) => prevPage + 1);
-    fetchMovies(searchTerm, page); // Increment page number
   };
 
   const handlePreviousPage = () => {
     if (page > 1) {
       setPage((prevPage) => prevPage - 1); 
-      fetchMovies(searchTerm, page);// Decrement page number if not on the first page
     }
   };
 
+  // if (error) {
+  //   return (
+  //     <View style={styles.errorContainer}>
+  //       <Text style={styles.errorText}>{error}</Text>
+  //     </View>
+  //   );
+  // }
   return (
     <View style={styles.container}>
       {/* Search Bar */}
@@ -91,15 +97,28 @@ const MovieListScreen: React.FC<MovieListScreenProps> = ({ navigation }) => {
         <TextInput
           style={styles.searchInput}
           placeholder="Search..."
-          value={searchTerm}
-          onChangeText={setSearchTerm} // Set searchTerm but don't trigger search on key type
-          //onSubmitEditing={handleSearchSubmit}
+          value={searchText}
+          onChangeText={setsearchText} // Set searchTerm but don't trigger search on key type
           returnKeyType="search"
         />
         <TouchableOpacity onPress={handleSearchSubmit} style={styles.searchButton}>
           <Icon name="search" size={20} color="#fff" />
         </TouchableOpacity>
       </View>
+
+      {/* Error Message */}
+      {error && (
+        <View style={styles.errorContainer}>
+          <Text style={styles.errorText}>{error}</Text>
+        </View>
+      )}
+
+      {/* Success Message */}
+      {successMessage && (
+        <View style={styles.successContainer}>
+          <Text style={styles.successText}>{successMessage}</Text>
+        </View>
+      )}
 
       {/* Movie List */}
       {loading && page === 1 ? (
@@ -163,6 +182,30 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  errorContainer: {
+    backgroundColor: '#f8d7da',
+    borderColor: '#f5c6cb',
+    borderWidth: 1,
+    borderRadius: 5,
+    padding: 5,
+    marginBottom: 10,
+  },
+  errorText: {
+    color: '#721c24',
+    fontWeight: 'bold',
+  },
+  successContainer: {
+    backgroundColor: '#d4edda',
+    borderColor: '#c3e6cb',
+    borderWidth: 1,
+    borderRadius: 5,
+    padding: 5,
+    marginBottom: 10,
+  },
+  successText: {
+    color: '#155724',
+    fontWeight: 'bold',
+  },
   paginationContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -171,18 +214,17 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     padding: 5,
     borderRadius: 20,
-    elevation: 1, // Adding shadow for Android
     shadowColor: '#000', // Shadow for iOS
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
+    elevation: 5,
   },
   paginationButton: {
     padding: 5,
     borderRadius: 50,
-    backgroundColor: '#e0e0e0',
-    marginHorizontal: 10,
-    elevation: 2,
+    backgroundColor: '#fff',
+    elevation: 5,
   },
   pageText: {
     fontSize: 16,
@@ -194,6 +236,5 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
 });
-
 
 export default MovieListScreen;
