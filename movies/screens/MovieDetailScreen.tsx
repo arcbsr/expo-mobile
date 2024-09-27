@@ -2,46 +2,40 @@ import React, { useEffect } from 'react';
 import { Text, View, StyleSheet, Animated, Alert, TouchableOpacity } from 'react-native';
 import { RouteProp } from '@react-navigation/native';
 import { RootStackParamList } from '../../app/navigation/types';
-import { useMovieStore } from '../store/movieStore'; // Import Zustand store
+import { useMovieStore } from '../store/movieStore'; 
 import LoadingDes from '../components/LoadingDe';
-import Icon from 'react-native-vector-icons/Ionicons'; // Importing Ionicons from react-native-vector-icons
+import Icon from 'react-native-vector-icons/Ionicons'; 
+import { useTheme } from '../../app/theme/ThemeContext'; // Import the custom hook
 
 type MovieDetailScreenProps = {
     route: RouteProp<RootStackParamList, 'MovieDetail'>;
-    navigation: any; // Add navigation prop for accessing header customization
+    navigation: any;
 };
 
 const MovieDetailScreen: React.FC<MovieDetailScreenProps> = ({ route, navigation }) => {
     const { movieId } = route.params;
     const { movieData, isLoading, fetchMovieDetail, error } = useMovieStore();
+    const { colors, setDarkTheme } = useTheme(); // Access colors from theme context
 
     const scrollY = new Animated.Value(0);
 
     useEffect(() => {
         fetchMovieDetail(movieId);
-
-        // Customize the header with icons
         navigation.setOptions({
+            headerStyle: {
+                backgroundColor: colors.backgroundColor, // Set your header background color here
+              },
+              headerTintColor: colors.tint,
             headerRight: () => (
                 <TouchableOpacity style={styles.iconContainer} onPress={handleDownload}>
-                    <Icon name="download-outline" size={24} color="#000000" />
+                    <Icon name="download-outline" size={24} color={colors.icon} />
                 </TouchableOpacity>
             ),
-            // headerLeft: () => (
-            //     <TouchableOpacity style={styles.iconContainer} onPress={handleSave}>
-            //         <Icon name="bookmark-outline" size={24} color="#000000" />
-            //     </TouchableOpacity>
-            // ),
         });
-    }, [movieId, navigation]);
+    }, [navigation, route]);
 
-    // Action handlers for the icons
     const handleDownload = () => {
         Alert.alert('Download', 'Movie downloading...');
-    };
-
-    const handleSave = () => {
-        Alert.alert('Save', 'Movie saved to your favorites.');
     };
 
     if (isLoading) {
@@ -49,11 +43,11 @@ const MovieDetailScreen: React.FC<MovieDetailScreenProps> = ({ route, navigation
     }
 
     if (error) {
-        return <Text style={styles.errorText}>{error}</Text>;
+        return <Text style={[styles.errorText, { color: colors.text }]}>{error}</Text>;
     }
 
     if (!movieData) {
-        return <Text style={styles.errorText}>No data available.</Text>;
+        return <Text style={[styles.errorText, { color: colors.text }]}>No data available.</Text>;
     }
 
     const posterHeight = scrollY.interpolate({
@@ -64,7 +58,7 @@ const MovieDetailScreen: React.FC<MovieDetailScreenProps> = ({ route, navigation
 
     return (
         <Animated.ScrollView
-            style={styles.container}
+            style={[styles.container, { backgroundColor: colors.background }]}
             onScroll={Animated.event(
                 [{ nativeEvent: { contentOffset: { y: scrollY } } }],
                 { useNativeDriver: false }
@@ -75,36 +69,36 @@ const MovieDetailScreen: React.FC<MovieDetailScreenProps> = ({ route, navigation
                 source={{ uri: movieData.Poster }}
                 style={[styles.poster, { height: posterHeight }]}
             />
-            <Text style={styles.title}>{movieData.Title} ({movieData.Year})</Text>
-            <View style={styles.infoBlock}>
-                <Text style={styles.detail}>Released: {movieData.Released}</Text>
-                <Text style={styles.detail}>Rated: {movieData.Rated}</Text>
-                <Text style={styles.detail}>Runtime: {movieData.Runtime}</Text>
-                <Text style={styles.detail}>Genre: {movieData.Genre}</Text>
+            <Text style={[styles.title, { color: colors.text }]}>{movieData.Title} ({movieData.Year})</Text>
+            <View style={[styles.infoBlock,{backgroundColor: colors.backgroundColor}]}>
+                <Text style={[styles.detail, { color: colors.text }]}>Released: {movieData.Released}</Text>
+                <Text style={[styles.detail, { color: colors.text }]}>Rated: {movieData.Rated}</Text>
+                <Text style={[styles.detail, { color: colors.text }]}>Runtime: {movieData.Runtime}</Text>
+                <Text style={[styles.detail, { color: colors.text }]}>Genre: {movieData.Genre}</Text>
             </View>
-            <View style={styles.infoBlock}>
-                <Text style={styles.heading}>Director</Text>
-                <Text style={styles.detail}>{movieData.Director}</Text>
+            <View style={[styles.infoBlock,{backgroundColor: colors.backgroundColor}]}>
+                <Text style={[styles.heading, { color: colors.text }]}>Director</Text>
+                <Text style={[styles.detail, { color: colors.text }]}>{movieData.Director}</Text>
             </View>
-            <View style={styles.infoBlock}>
-                <Text style={styles.heading}>Writer</Text>
-                <Text style={styles.detail}>{movieData.Writer}</Text>
+            <View style={[styles.infoBlock,{backgroundColor: colors.backgroundColor}]}>
+                <Text style={[styles.heading, { color: colors.text }]}>Writer</Text>
+                <Text style={[styles.detail, { color: colors.text }]}>{movieData.Writer}</Text>
             </View>
-            <View style={styles.infoBlock}>
-                <Text style={styles.heading}>Actors</Text>
-                <Text style={styles.detail}>{movieData.Actors}</Text>
+            <View style={[styles.infoBlock,{backgroundColor: colors.backgroundColor}]}>
+                <Text style={[styles.heading, { color: colors.text }]}>Actors</Text>
+                <Text style={[styles.detail, { color: colors.text }]}>{movieData.Actors}</Text>
             </View>
-            <Text style={styles.plot}>{movieData.Plot}</Text>
+            <Text style={[styles.plot, { color: colors.text }]}>{movieData.Plot}</Text>
 
-            <View style={styles.infoBlock}>
-                <Text style={styles.heading}>Box Office</Text>
-                <Text style={styles.detail}>{movieData.BoxOffice}</Text>
+            <View style={[styles.infoBlock,{backgroundColor: colors.backgroundColor}]}>
+                <Text style={[styles.heading, { color: colors.text }]}>Box Office</Text>
+                <Text style={[styles.detail, { color: colors.text }]}>{movieData.BoxOffice}</Text>
             </View>
 
-            <View style={styles.ratingBlock}>
-                <Text style={styles.imdbRating}>IMDb Rating: {movieData.imdbRating}</Text>
+            <View style={[styles.infoBlock,{backgroundColor: colors.backgroundColor}]}>
+                <Text style={[styles.imdbRating, { color: colors.text }]}>IMDb Rating: {movieData.imdbRating}</Text>
                 {movieData.Ratings.map((rating, index) => (
-                    <Text key={index} style={styles.rating}>
+                    <Text key={index} style={[styles.rating, { color: colors.text }]}>
                         {rating.Source}: {rating.Value}
                     </Text>
                 ))}
@@ -116,7 +110,7 @@ const MovieDetailScreen: React.FC<MovieDetailScreenProps> = ({ route, navigation
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#1c1c1e',
+        padding: 10,
     },
     poster: {
         width: '100%',
@@ -132,59 +126,47 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 28,
         fontWeight: '700',
-        color: '#ffffff',
         textAlign: 'center',
         marginVertical: 10,
     },
     infoBlock: {
-        backgroundColor: '#2a2a2d',
-        padding: 12,
-        borderRadius: 10,
-        marginVertical: 8,
-    },
-    heading: {
-        fontSize: 18,
-        fontWeight: '600',
-        color: '#f4f4f5',
-        marginBottom: 4,
+        padding: 10,
+        marginVertical: 5,
+        borderRadius: 8,
     },
     detail: {
         fontSize: 16,
-        color: '#e0e0e2',
-        marginVertical: 2,
+    },
+    heading: {
+        fontSize: 18,
+        fontWeight: 'bold',
     },
     plot: {
         fontSize: 16,
-        color: '#d1d1d3',
+        color: '#444444',
         marginVertical: 15,
         fontStyle: 'italic',
         lineHeight: 24,
     },
     ratingBlock: {
-        backgroundColor: '#2a2a2d',
-        padding: 12,
-        borderRadius: 10,
-        marginVertical: 8,
+        padding: 10,
+        marginVertical: 5,
+        borderRadius: 8,
     },
     imdbRating: {
-        fontSize: 20,
+        fontSize: 18,
         fontWeight: 'bold',
-        color: '#f5c518',
-        marginBottom: 10,
     },
     rating: {
         fontSize: 16,
-        color: '#f4f4f5',
-        marginBottom: 4,
     },
     errorText: {
-        fontSize: 16,
         color: 'red',
         textAlign: 'center',
         marginTop: 20,
     },
     iconContainer: {
-        paddingHorizontal: 10,
+        paddingRight: 15,
     },
 });
 

@@ -17,7 +17,7 @@ export const useMovieStore = create<MovieStore>((set) => ({
     set({ isLoading: true, error: null });
 
     try {
-      const movieData = await MovieRepository.getMovieDetail();
+      const movieData = await MovieRepository.getMovieDetail(movieId);
       set({ movieData, isLoading: false });
     } catch (error) {
       set({ error: 'Failed to fetch movie details', isLoading: false });

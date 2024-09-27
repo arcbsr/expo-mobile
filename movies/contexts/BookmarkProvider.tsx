@@ -5,6 +5,7 @@ interface BookmarkContextType {
   movies: Movie[];
   loading: boolean;
   toggleBookmark: (imdbID: string) => void;
+  fetchMovies: (searchitem: string, page: number) => Promise<void>;
   isBookmarked: (imdbID: string) => boolean;
   getBookmarkedMovies: () => Movie[];
 }
@@ -17,16 +18,16 @@ export const BookmarkProvider: React.FC<{ children: ReactNode }> = ({ children }
   const [bookmarks, setBookmarks] = useState<string[]>([]);
 
   useEffect(() => {
-    const fetchMovies = async () => {
-      const fetchedMovies = await MovieRepository.getMovies();
-
-      const shuffledMovies = [...fetchedMovies].sort(() => Math.random() - 0.5);
-      setMovies(shuffledMovies);
-      setLoading(false);
-    };
-
     fetchMovies();
   }, []);
+
+  const fetchMovies = async (searchitem="mov",page=1) => {
+    const fetchedMovies = await MovieRepository.getMovies(searchitem,page);
+
+    const shuffledMovies = [...fetchedMovies].sort(() => Math.random() - 0.5);
+    setMovies(shuffledMovies);
+    setLoading(false);
+  };
   const toggleBookmark = (imdbID: string) => {
     setBookmarks((prev) => {
       if (prev.includes(imdbID)) {
@@ -44,7 +45,7 @@ export const BookmarkProvider: React.FC<{ children: ReactNode }> = ({ children }
   };
 
   return (
-    <BookmarkContext.Provider value={{ movies, loading, toggleBookmark, isBookmarked, getBookmarkedMovies }}>
+    <BookmarkContext.Provider value={{ movies, loading, toggleBookmark,fetchMovies, isBookmarked, getBookmarkedMovies }}>
       {children}
     </BookmarkContext.Provider>
   );

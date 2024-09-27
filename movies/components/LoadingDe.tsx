@@ -1,13 +1,44 @@
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import React, { useEffect, useRef } from 'react';
+import { View, Text, StyleSheet, Animated } from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons'; 
 
 const LoadingDes = () => {
+  // Create animated values for scale and opacity
+  const scaleAnim = useRef(new Animated.Value(0)).current;
+  const opacityAnim = useRef(new Animated.Value(0)).current;
+
+  // Function to start animation
+  const startAnimation = () => {
+    Animated.parallel([
+      Animated.timing(scaleAnim, {
+        toValue: 1,
+        duration: 800,
+        useNativeDriver: true,
+      }),
+      Animated.timing(opacityAnim, {
+        toValue: 1,
+        duration: 800,
+        useNativeDriver: true,
+      }),
+    ]).start();
+  };
+
+  // Run the animation on component mount
+  useEffect(() => {
+    startAnimation();
+  }, []);
+
   return (
     <View style={styles.container}>
-      <MaterialCommunityIcons name="access-point-network" size={100} color="#808080" />
-      <Text style={styles.title}>Loading...</Text>
-      <Text style={styles.subtitle}>Please wait</Text>
+      <Animated.View style={{ transform: [{ scale: scaleAnim }], opacity: opacityAnim }}>
+        <Icon name="download-outline" size={60} color="blue" />
+      </Animated.View>
+      <Animated.Text style={[styles.title, { opacity: opacityAnim }]}>
+        Loading...
+      </Animated.Text>
+      <Animated.Text style={[styles.subtitle, { opacity: opacityAnim }]}>
+        Please wait
+      </Animated.Text>
       <View style={styles.iconContainer}>
         {/* <Text style={styles.filmIcon}>🎬</Text> */}
       </View>
